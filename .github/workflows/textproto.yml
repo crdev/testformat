@@ -1,8 +1,13 @@
 name: Format textproto files
 
 on:
-  push:
-    branches: [ main ]
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+    branches:
+      - 'main'
     paths:
       - '**.textproto'
 
@@ -33,9 +38,11 @@ jobs:
     - name: Push changes
       if: steps.git-check.outputs.modified == 'true'
       run: |
-        git config --global user.name 'Alexander Pavlov'
+        git config --global user.name 'txtpbfmt-autoformatter'
         git config --global user.email '2185498+crdev@users.noreply.github.com'
         git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+        git branch -a
+        git checkout $GITHUB_HEAD_REF
         git commit -am "Automated txtpbfmt fixes"
         git push
 
