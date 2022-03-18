@@ -1,0 +1,7 @@
+ # Foo
+# Bar
+
+obj {    
+  key1: "val"
+     key2: 2
+  }  
